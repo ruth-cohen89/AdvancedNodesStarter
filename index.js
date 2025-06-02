@@ -8,17 +8,25 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./models/Blog');
 require('./services/passport');
+require('./services/cache');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI, { useMongoClient: true });
+
+// mongoose.Promise = global.Promise;
+mongoose.connect(keys.mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Timeout after 5s if not connected
+})
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.error('MongoDB Connection Error:' , err));
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(
   cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey]
+    maxAge: 30 * 24 * 60 * 60 * 1000, // exp in 30 days
+    keys: [keys.cookieKey],
   })
 );
 app.use(passport.initialize());
@@ -40,3 +48,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Listening on port`, PORT);
 });
+
