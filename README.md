@@ -16,6 +16,7 @@ Starting project for a course on Advanced Node @ Udemy
 - I ran the application commands inside an ubuntu terminal.
 
 **Passport Version Notice:**
+
 This project uses an older version of Passport (v0.5.3) to ensure compatibility with `cookie-session`.
 
 The `express-session` package is a more advanced and flexible session middleware compared to `cookie-session`.
