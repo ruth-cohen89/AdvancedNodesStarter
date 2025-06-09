@@ -15,6 +15,11 @@ Starting project for a course on Advanced Node @ Udemy
 - Without starting the Redis server, the app will not be able to connect to it and will not load data properly.
 - I ran the application commands inside an ubuntu terminal.
 
+**Passport Version Notice:**
+This project uses an older version of Passport (v0.5.3) to ensure compatibility with cookie-session.
+The express-session package is a more advanced and flexible session middleware compared to cookie-session.
+If you replace cookie-session with express-session, the login tests will no longer work without modifications.
+In that case, you will need to redesign your testing strategy for authentication to accommodate the change.
 
 
 
