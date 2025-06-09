@@ -5,7 +5,7 @@ const puppeteer = require("puppeteer");
 class CustomPage {
     static async build() {
         const browser = await puppeteer.launch({
-            headless: false
+            headless: false,
         });
 
         const page = await browser.newPage();
@@ -13,9 +13,31 @@ class CustomPage {
 
         return new Proxy(customPage, {
             get: function (target, property) {
-                return customPage[property] || browser[property] || page[property];
+                // קודם נבדוק אם יש את התכונה ב־page
+                if (page[property]) {
+                    // נשתמש ב-bind כדי שהקשר של this יישמר (למשל ב־page.goto)
+                    return typeof page[property] === 'function'
+                        ? page[property].bind(page)
+                        : page[property];
+                }
+
+                // אם לא ב־page, נבדוק ב־browser
+                if (browser[property]) {
+                    return typeof browser[property] === 'function'
+                        ? browser[property].bind(browser)
+                        : browser[property];
+                }
+
+                // רק אם לא קיים בשום מקום אחר — נחזיר מה־customPage
+                return target[property];
             }
-        })
+        });
+
+        // return new Proxy(customPage, {
+        //     get: function (target, property) {
+        //         return customPage[property] || browser[property] || page[property];
+        //     }
+        // })
     }
 
     constructor(page) {
@@ -28,8 +50,11 @@ class CustomPage {
 
         await this.page.setCookie({ name: 'session', value: session });
         await this.page.setCookie({ name: 'session.sig', value: sig });
-        await this.page.goto('http://localhost:3000');
-        await this.page.waitFor('a[href="/auth/logout"]');
+        const cookies = await this.page.cookies();
+
+        await this.page.goto('http://localhost:3000/blogs');
+        await this.page.waitForSelector('a[href="/auth/logout"]');
+
     }
 
     async getContentsOf(selector) {

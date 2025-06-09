@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
 require('./models/User');
@@ -10,25 +9,23 @@ require('./models/Blog');
 require('./services/passport');
 require('./services/cache');
 
-
-// mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000, // Timeout after 5s if not connected
+  serverSelectionTimeoutMS: 5000 // Timeout after 5s if not connected
 })
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error('MongoDB Connection Error:' , err));
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000, // exp in 30 days
     keys: [keys.cookieKey],
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
