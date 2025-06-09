@@ -1,4 +1,4 @@
-    const Page = require('./helpers/page');
+const Page = require('./helpers/page');
 
 let page;
 
@@ -38,6 +38,16 @@ test('When signed in, shows my blogs button', async() => {
 
     expect(text).toEqual('My Blogs');
 })
+
+
+
+
+
+
+
+
+
+
 
 
  // Can be added

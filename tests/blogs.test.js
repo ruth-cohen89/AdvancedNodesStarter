@@ -52,6 +52,7 @@ describe('When logged in', () => {
 
     describe('And using invalid inputs', () => {
         beforeEach(async() => {
+            await page.waitForSelector('form button');
             await page.click('form button');
         });
 
@@ -65,57 +66,38 @@ describe('When logged in', () => {
       })
 
   })
-//     async function getData() {
-//         let data = await fetch('/api/blogs', {
-//         method: 'POST',
-//             credentials: 'same-origin',
-//             headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ title: 'My Title', content: 'My Content' })
-//     });
-//         console.log(data)
-// }
-// getData()
 })
 
-// describe('User is not logged in', () => {
-//     test('User cannot create blog posts', async() => {
-//         const result = await page.evaluate(async () => {
-//             const res = await fetch('/api/blogs', {
-//                 method: 'POST',
-//                 credentials: 'same-origin',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify({ title: 'My Title', content: 'My Content' }),
-//             });
-//             return res.json();
-//         });
-        // const result = await page.evaluate(
-      //     () => {
-      //         return fetch('/api/blogs', {
-      //             method: 'POST',
-      //             credentials: 'same-origin',
-      //             headers: {
-      //                 'Content-Type': 'application/json'
-      //             },
-      //             body: JSON.stringify({ title: 'My Title', content: 'My Content' })
-      //         }).then(res => res.json());
-      // })
 
-    //     console.log(result)
-    // });
+describe('User is not logged in', () => {
+    test('User cannot create blog posts', async() => {
+        const result = await page.evaluate(async () => {
+            const res = await fetch('/api/blogs', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title: 'My Title', content: 'My Content' }),
+            });
+            return res.json();
+        });
+        expect(result).toEqual({ error: 'You must log in!' });
+    })
+   })
 
-        // test('User cannot get a list of blogs', async() => {
-        //     const result = await page.get('/api/blogs');
-        //
-        //     expect(result).toEqual({ error: 'You must log in!' });
-        // });
-        //
-        // test('User cannot get a blog by id', async() => {
-        //     const result = await page.get('/api/blogs/12345');
-        //
-        //     expect(result).toEqual({ error: 'You must log in!' });
-        // });
-//})
+
+
+// test('User cannot get a list of blogs', async() => {
+//     const result = await page.get('/api/blogs');
+//
+//     expect(result).toEqual({ error: 'You must log in!' });
+// });
+//
+// test('User cannot get a blog by id', async() => {
+//     const result = await page.get('/api/blogs/12345');
+//
+//     expect(result).toEqual({ error: 'You must log in!' });
+// });
+
+
