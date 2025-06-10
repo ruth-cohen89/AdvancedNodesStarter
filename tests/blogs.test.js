@@ -70,35 +70,40 @@ describe('When logged in', () => {
 
 
 describe('User is not logged in', () => {
-    test('User cannot create blog posts', async() => {
-        const result = await page.evaluate(async () => {
-            const res = await fetch('/api/blogs', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title: 'My Title', content: 'My Content' }),
-            });
-            return res.json();
-        });
-        expect(result).toEqual({ error: 'You must log in!' });
-    })
+    const actions = [
+        {
+            method: 'get',
+            path: '/api/blogs'
+        },
+        {
+            method: 'post',
+            path: '/api/blogs',
+            data: {
+                title: 'T',
+                content: 'C'
+            }
+        }
+    ]
 
-    test('User cannot get a list of posts', async() => {
-        const result = await page.evaluate(async () => {
-            const res = await fetch('/api/blogs', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return res.json();
-        });
-        expect(result).toEqual({ error: 'You must log in!' });
-    })
-   })
+    test('Blog related actions are prohibited', async() => {
+        const results = await page.execRequests(actions);
+
+        for (let result of results) {
+            expect(result).toEqual({ error: 'You must log in!' });
+        }
+    });
+});
+
+   //  test('User cannot create blog posts', async() => {
+   //      const result = await page.post('/api/blogs', { title: 'My Title', content: 'My Content' });
+   //      expect(result).toEqual({ error: 'You must log in!' });
+   //  })
+   //
+   //  test('User cannot get a list of posts', async() => {
+   //      const result = await page.get('/api/blogs');
+   //      expect(result).toEqual({ error: 'You must log in!' });
+   //  })
+   // })
 
 
 
