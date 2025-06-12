@@ -29,7 +29,8 @@ class CustomPage {
                         : browser[property];
                 }
 
-                // רק אם לא קיים בשום מקום אחר — נחזיר מה־customPage
+
+                // רק אם לא קיים בשום מקום אחר  — נחזיר מה־customPage
                 return target[property];
             }
         });
