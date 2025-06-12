@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const redis = require('redis');
-const redisUrl = 'redis://127.0.0.1:6379';
-const client = redis.createClient({ url: redisUrl });
+const keys = require('../config/keys');
+//const redisUrl = 'redis://127.0.0.1:6379';
+const client = redis.createClient({ url: keys.redisUrl });
 
 // IIFE to await connection
 (async () => {

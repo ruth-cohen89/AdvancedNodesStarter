@@ -32,7 +32,6 @@ describe('When logged in', () => {
 
         test('Submitting takes user to review screen', async() => {
             const text = await page.getContentsOf('h5');
-            //const blogTitle = await page.getContentsOf('form div div');
 
             expect(text).toEqual('Please confirm your entries');
         });
@@ -104,19 +103,5 @@ describe('User is not logged in', () => {
    //      expect(result).toEqual({ error: 'You must log in!' });
    //  })
    // })
-
-
-
-// test('User cannot get a list of blogs', async() => {
-//     const result = await page.get('/api/blogs');
-//
-//     expect(result).toEqual({ error: 'You must log in!' });
-// });
-//
-// test('User cannot get a blog by id', async() => {
-//     const result = await page.get('/api/blogs/12345');
-//
-//     expect(result).toEqual({ error: 'You must log in!' });
-// });
 
 
