@@ -56,6 +56,16 @@ jobs:
           npm install --legacy-peer-deps
           npm run build
 
+
+
+      - name: Clear Puppeteer Cache
+        run: rm -rf /home/runner/.cache/puppeteer
+
+      - name: Install Puppeteer Chrome
+        run: npx puppeteer install
+
+
+
       - name: Start server
         run: |
           nohup npm run start &
