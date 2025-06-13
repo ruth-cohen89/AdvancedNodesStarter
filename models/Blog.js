@@ -9,5 +9,3 @@ const blogSchema = new Schema({
 });
 
 mongoose.model('Blog', blogSchema);
-// const Blog = mongoose.model('Blog', blogSchema);
-// module.exports = Blog; // Export Blog model

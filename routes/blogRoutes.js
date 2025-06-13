@@ -15,7 +15,6 @@ module.exports = app => {
     res.send(blog);
   });
 
-  // const Blog = require('../models/Blog'); // Ensure Blog model is imported
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
     const blogs = await Blog.find({ _user: req.user.id }).cache({
