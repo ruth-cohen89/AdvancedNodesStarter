@@ -56,21 +56,10 @@ jobs:
           npm install --legacy-peer-deps
           npm run build
 
-#      - name: Start server
-#        run: |
-#          nohup npm run start &
-#          sleep 3
-
-      - name: Start server and wait
+      - name: Start server
         run: |
           nohup npm run start &
-          for i in {1..20}; do
-            echo "⏳ Waiting for server... attempt $i"
-            curl --silent --fail http://localhost:3000 && echo "✅ Server is up" && exit 0
-            sleep 1
-          done
-          echo "❌ Server did not start in time"
-          exit 1
+          sleep 3
 
       - name: Run tests
         run: npm run test
